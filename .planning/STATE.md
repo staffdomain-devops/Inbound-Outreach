@@ -9,15 +9,15 @@ See: `.planning/PROJECT.md` (updated 2026-06-24)
 
 ## Current Phase
 
-**Phase 1: Scaffolding**
+**Phase 2: HubSpot Fetch**
 Status: Not started
-Goal: Establish folder structure, shared utilities, Python dependencies
+Goal: Fetch contact + company + all engagement history from HubSpot
 
 ## Phase History
 
 | Phase | Status | Notes |
 |-------|--------|-------|
-| 1 | Not started | |
+| 1 | Complete | scripts/utils.py, requirements.txt, prompt_template.md |
 | 2 | Not started | |
 | 3 | Not started | |
 | 4 | Not started | |
