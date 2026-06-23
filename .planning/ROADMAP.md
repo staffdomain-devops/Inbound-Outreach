@@ -45,28 +45,28 @@
 
 ### Phase 3: Tokens
 
-**Goal:** `compute_campaign_tokens.py` reads the `INPUT_STEP` env var and writes `campaign_tokens.json` with `step` and `current_date`.
+**Goal:** `compute_campaign_tokens.py` writes `campaign_tokens.json` with `current_date`.
 **Mode:** mvp
 
 **Requirements:** TOKEN-01
 
 **Success Criteria:**
-1. `campaign_tokens.json` contains `step` (string) and `current_date` (ISO date string)
-2. Invalid or missing `INPUT_STEP` raises a clear error
+1. `campaign_tokens.json` contains `current_date` (ISO date string)
+2. Script runs without required env vars and always succeeds
 
 ---
 
 ### Phase 4: Generate
 
-**Goal:** `generate_campaign.py` assembles the personalised prompt from all context, calls the Claude API, parses the response, and writes `campaign_output.json` with `{"subject": "...", "body": "..."}`.
+**Goal:** `generate_campaign.py` assembles the personalised prompt from all context, calls the Claude API, parses the response, and writes `campaign_output.json` with all 4 emails.
 **Mode:** mvp
 
 **Requirements:** GEN-01–07, ERR-01–02
 
 **Success Criteria:**
-1. Prompt assembly includes contact properties, company properties, activity history (emails/meetings/calls/notes), and step value via `{{token.name}}` substitution
-2. Claude API called with `claude-sonnet-4-6`, `max_tokens=4096`; `max_retries=0` on the SDK client
-3. `campaign_output.json` written with valid `subject` and `body` keys
+1. Prompt assembly includes contact properties, company properties, activity history (emails/meetings/calls/notes) via `{{token.name}}` substitution
+2. Claude API called with `claude-sonnet-4-6`, `max_tokens=8192`; `max_retries=0` on the SDK client
+3. `campaign_output.json` written with valid `email_1` through `email_4` keys, each containing `subject` and `body`
 4. `stop_reason == "max_tokens"` raises a clear error; invalid JSON saves raw response to RUNNER_TEMP before raising
 
 ---
@@ -79,7 +79,7 @@
 **Requirements:** WRITE-01–03, ERR-01–02
 
 **Success Criteria:**
-1. Contact property `inbound_s{n}_subject` and `inbound_s{n}_body` updated (where `n` is the step value from env var)
+1. Contact properties `subject_1`–`subject_4` and `email_1`–`email_4` all written (overwrite on each run)
 2. `inbound_generated_date` set to today's date
 3. A note created on the contact record via HubSpot v3 Notes API; note failure is non-fatal (logs warning, continues)
 
@@ -93,7 +93,7 @@
 **Requirements:** CI-01–06, ERR-03–04
 
 **Success Criteria:**
-1. Workflow triggered by `workflow_dispatch` with three string inputs: `contact_id`, `contact_email`, `step`
-2. Steps run in order; each passes contact_id, contact_email, step via env vars; data flows through `$RUNNER_TEMP` JSON files
+1. Workflow triggered by `workflow_dispatch` with two string inputs: `contact_id`, `contact_email`
+2. Steps run in order; each passes contact_id, contact_email via env vars; data flows through `$RUNNER_TEMP` JSON files
 3. `campaign_output.json` uploaded as artifact (7-day retention) on workflow success
 4. On failure: `failed_contacts.json` artifact uploaded AND Teams webhook POSTed with contact_email, step, error excerpt, and run URL

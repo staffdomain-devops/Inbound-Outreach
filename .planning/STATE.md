@@ -27,7 +27,6 @@ Goal: Establish folder structure, shared utilities, Python dependencies
 ## Open Questions
 
 - What are the exact HubSpot custom property names for the enrichment fields the enrichment agent writes? (Assumed: standard contact/company properties for now)
-- What are the exact property names for step-specific email write-back? (Decided: `inbound_s{n}_subject`, `inbound_s{n}_body` — create these in HubSpot before first run)
 - Which Teams/Slack webhook URL is used for failure notifications? (Set as `TEAMS_WEBHOOK_URL` GitHub secret)
 
 ## Decisions Log

@@ -4,7 +4,7 @@
 
 ### Data Fetch
 
-- [ ] **DATA-01**: Pipeline accepts `contact_id`, `contact_email`, and `step` as workflow_dispatch inputs
+- [ ] **DATA-01**: Pipeline accepts `contact_id` and `contact_email` as workflow_dispatch inputs
 - [ ] **DATA-02**: `fetch_hubspot.py` fetches contact properties: `firstname`, `lastname`, `email`, `jobtitle`, `company`, `industry`, `num_employees`, `city`, `state`, `country`, `website`, `hubspot_owner_id`, `hs_lead_status`, and any custom enrichment properties
 - [ ] **DATA-03**: `fetch_hubspot.py` fetches the associated company (account) record properties: `name`, `industry`, `numberofemployees`, `city`, `country`, `website`, `annualrevenue`, `description`
 - [ ] **DATA-04**: `fetch_hubspot.py` fetches email history on the contact (past 12 months, HTML stripped)
@@ -15,7 +15,7 @@
 
 ### Tokens
 
-- [ ] **TOKEN-01**: `compute_campaign_tokens.py` writes `current_date` (ISO format) and `step` (passed through from env var) to `$RUNNER_TEMP/campaign_tokens.json`
+- [ ] **TOKEN-01**: `compute_campaign_tokens.py` writes `current_date` (ISO format) to `$RUNNER_TEMP/campaign_tokens.json`
 
 ### Generation
 
@@ -23,13 +23,13 @@
 - [ ] **GEN-02**: `generate_campaign.py` assembles activity history string from emails + meetings + calls + notes
 - [ ] **GEN-03**: `generate_campaign.py` substitutes `{{token.name}}` placeholders in `prompt_template.md`
 - [ ] **GEN-04**: `generate_campaign.py` calls `claude-sonnet-4-6` with `max_tokens=4096`
-- [ ] **GEN-05**: `generate_campaign.py` parses and validates JSON output `{"subject": "...", "body": "..."}`
-- [ ] **GEN-06**: `generate_campaign.py` post-processes output: strips em/en dashes, validates required keys
+- [ ] **GEN-05**: `generate_campaign.py` parses and validates JSON output with keys `email_1` through `email_4`, each containing `subject` and `body`
+- [ ] **GEN-06**: `generate_campaign.py` post-processes output: strips em/en dashes, validates all 4 email keys are present
 - [ ] **GEN-07**: `generate_campaign.py` writes result to `$RUNNER_TEMP/campaign_output.json`
 
 ### Write-back
 
-- [ ] **WRITE-01**: `write_hubspot.py` reads `campaign_output.json` and writes subject/body to step-specific contact properties (`inbound_s{n}_subject`, `inbound_s{n}_body`)
+- [ ] **WRITE-01**: `write_hubspot.py` reads `campaign_output.json` and writes subject/body for all 4 emails to contact properties (`subject_1`–`subject_4`, `email_1`–`email_4`)
 - [ ] **WRITE-02**: `write_hubspot.py` updates `inbound_generated_date` property on the contact
 - [ ] **WRITE-03**: `write_hubspot.py` creates a note on the contact record via HubSpot v3 Notes API with generated email summary
 
@@ -43,7 +43,7 @@
 ### CI/CD
 
 - [ ] **CI-01**: GitHub Actions workflow file at `.github/workflows/campaign.yml`
-- [ ] **CI-02**: Workflow triggered by `workflow_dispatch` with inputs: `contact_id`, `contact_email`, `step`
+- [ ] **CI-02**: Workflow triggered by `workflow_dispatch` with inputs: `contact_id`, `contact_email`
 - [ ] **CI-03**: Workflow runs steps in order: `fetch_hubspot.py` → `compute_campaign_tokens.py` → `generate_campaign.py` → `write_hubspot.py`
 - [ ] **CI-04**: Workflow uploads `campaign_output.json` as artifact with 7-day retention on success
 - [ ] **CI-05**: Workflow uses secrets: `HUBSPOT_API_KEY`, `ANTHROPIC_API_KEY`, `TEAMS_WEBHOOK_URL`

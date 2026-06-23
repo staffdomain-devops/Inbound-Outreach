@@ -29,17 +29,18 @@ Make.com → workflow_dispatch(contact_id, contact_email, step)
   → write_hubspot.py   → HubSpot contact properties + note
 ```
 
-## Step Values
+## Output
 
-Valid `step` inputs: `1`, `3`, `7`, `11`, `14`
-
-Each step corresponds to a day in the speed-to-lead sequence. Step 1 fires within minutes of form submission. Steps 3–14 fire after missed call attempts.
+All 4 sequence emails are generated in a single Claude call per contact:
+- Email 1: first touch (within minutes of enquiry)
+- Email 2: after first missed call attempt
+- Email 3: after several missed call attempts
+- Email 4: break-up / last touch
 
 ## HubSpot Properties Written
 
-For each run with step `n`:
-- `inbound_s{n}_subject` — generated email subject
-- `inbound_s{n}_body` — generated email body (HTML stripped, ends before meeting link)
+- `subject_1`–`subject_4` — generated email subject lines
+- `email_1`–`email_4` — generated email bodies (end before meeting link)
 - `inbound_generated_date` — date of most recent generation
 
 Create these properties in HubSpot (Settings → Properties → Contact) before first run.
