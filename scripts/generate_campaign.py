@@ -119,6 +119,19 @@ def clean_text(text):
     return text.strip()
 
 
+def strip_code_fence(text):
+    """Remove ```json / ``` wrappers Claude sometimes adds despite instructions."""
+    text = text.strip()
+    match = re.match(r'^```(?:json)?\s*([\s\S]*?)```\s*$', text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    # Fallback: extract the first {...} block if the response has surrounding prose.
+    match = re.search(r'(\{[\s\S]*\})', text)
+    if match:
+        return match.group(1).strip()
+    return text
+
+
 def clean_emails(output):
     for i in range(1, 5):
         key = f"email_{i}"
@@ -222,15 +235,21 @@ def main():
         raw = message.content[0].text.strip()
         print(f"Response: {len(raw):,} chars | stop_reason={message.stop_reason}")
 
+        # Always save the raw response so it's available as an artifact.
+        raw_path = os.path.join(runner_temp, "campaign_output_raw.txt")
+        with open(raw_path, "w", encoding="utf-8") as f:
+            f.write(raw)
+
         if message.stop_reason == "max_tokens":
             raise RuntimeError("Claude response truncated (max_tokens) — increase MAX_TOKENS or shorten prompt")
 
+        cleaned = strip_code_fence(raw)
+        if cleaned != raw:
+            print(f"Stripped code fence — cleaned response: {len(cleaned):,} chars")
+
         try:
-            output = json.loads(raw)
+            output = json.loads(cleaned)
         except json.JSONDecodeError as e:
-            raw_path = os.path.join(runner_temp, "campaign_output_raw.txt")
-            with open(raw_path, "w", encoding="utf-8") as f:
-                f.write(raw)
             print(f"Raw response saved to {raw_path}", file=sys.stderr)
             raise RuntimeError(f"Claude response is not valid JSON: {e}") from e
 
