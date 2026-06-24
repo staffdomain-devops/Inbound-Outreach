@@ -123,6 +123,7 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 - Keep language clear, natural, and grammatically correct. Avoid phrasing that could read as passive aggressive or pushy. No em dashes. No corporate filler.
 - Subject lines: punchy and short.
 - Vary the wording of the assumptive close naturally across steps so it does not feel like a template.
+- Do not open with "Hi [Name]," or any salutation. Start the body directly with the first sentence.
 - The email body ends before the meeting link and signature — those are appended by the system. Do not write them.
 
 ---
