@@ -18,8 +18,6 @@ from utils import (
 )
 
 
-PROP_GENERATED_DATE = "inbound_generated_date"
-
 EMAIL_PROPS = {
     1: ("subject_1", "email_1"),
     2: ("subject_2", "email_2"),
@@ -87,9 +85,7 @@ def main():
     client = hubspot.Client.create(access_token=os.environ["HUBSPOT_API_KEY"])
     headers = {"Authorization": f"Bearer {os.environ['HUBSPOT_API_KEY']}"}
 
-    properties = {
-        PROP_GENERATED_DATE: datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-    }
+    properties = {}
 
     for i, (subj_prop, body_prop) in EMAIL_PROPS.items():
         email = output.get(f"email_{i}")
