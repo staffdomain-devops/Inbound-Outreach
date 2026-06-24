@@ -181,6 +181,11 @@ def main():
                 "firstname", "lastname", "email", "jobtitle", "company",
                 "industry", "num_employees", "city", "state", "country",
                 "website", "hubspot_owner_id",
+                # Form submission fields
+                "what_role_s_are_you_looking_to_scale_right_now_",
+                "how_many_staff_are_you_looking_to_hire",
+                "why_are_you_looking_to_offshore_",
+                "anything_else_we_should_know_",
             ],
         )
         contact_properties = contact.properties or {}

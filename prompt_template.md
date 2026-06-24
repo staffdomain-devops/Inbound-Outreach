@@ -1,3 +1,9 @@
+FORM SUBMISSION (strongest signal — what the prospect told us)
+- Role/s looking to scale: {{contact.form_role}}
+- Staff count needed: {{contact.form_staff_count}}
+- Why looking to hire: {{contact.form_why_offshore}}
+- Anything else: {{contact.form_anything_else}}
+
 CONTACT RECORD
 - First name: {{contact.first_name}}
 - Last name: {{contact.last_name}}
