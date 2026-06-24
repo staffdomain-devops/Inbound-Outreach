@@ -254,6 +254,7 @@ def main():
 
         output = {
             "contact_properties": contact_properties,
+            "company_id": company_id,
             "company_properties": company_properties,
             "email_history": email_history,
             "meeting_engagements": meeting_engagements,

@@ -39,6 +39,16 @@ jobs:
           HUBSPOT_API_KEY: ${{ secrets.HUBSPOT_API_KEY }}
           RUNNER_TEMP: ${{ runner.temp }}
 
+      - name: Enrich contact
+        run: python scripts/enrich_contact.py
+        env:
+          INPUT_CONTACT_ID: ${{ github.event.inputs.contact_id }}
+          INPUT_CONTACT_EMAIL: ${{ github.event.inputs.contact_email }}
+          HUBSPOT_API_KEY: ${{ secrets.HUBSPOT_API_KEY }}
+          ZOOMINFO_USERNAME: ${{ secrets.ZOOMINFO_USERNAME }}
+          ZOOMINFO_PASSWORD: ${{ secrets.ZOOMINFO_PASSWORD }}
+          RUNNER_TEMP: ${{ runner.temp }}
+
       - name: Compute campaign tokens
         run: python scripts/compute_campaign_tokens.py
         env:
