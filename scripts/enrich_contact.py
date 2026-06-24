@@ -256,7 +256,9 @@ def _hs_patch_company(headers, company_id, properties):
             json={"properties": properties},
             timeout=30,
         )
-        resp.raise_for_status()
+        if not resp.ok:
+            print(f"  HubSpot company patch failed {resp.status_code}: {resp.text[:400]}", file=sys.stderr)
+            resp.raise_for_status()
         print(f"  HubSpot company {company_id} patched: {list(properties.keys())}")
     except Exception as exc:
         print(f"  HubSpot company patch failed: {exc}", file=sys.stderr)
@@ -461,7 +463,9 @@ def main():
 
         if company_id:
             hs_co_patch = {}
-            for field in ["name", "industry", "numberofemployees", "city", "country"]:
+            # "industry" is a HubSpot enum — patching with a free-text ZI value causes 400.
+            # Keep industry in-memory for Claude but don't write it back to HubSpot.
+            for field in ["name", "numberofemployees", "city", "country"]:
                 if not (company_props.get(field) or "").strip() and zi_co_props.get(field):
                     hs_co_patch[field] = zi_co_props[field]
             if hs_co_patch:
