@@ -84,7 +84,7 @@ def _zi_enrich_company(jwt, *, domain=None, name=None):
             json={
                 "matchCompanyInput": [match_input],
                 "outputFields": [
-                    "id", "name", "website", "revenue", "employees",
+                    "id", "name", "website", "revenue", "employeeCount",
                     "primaryIndustry", "city", "state", "country",
                 ],
             },
@@ -362,7 +362,7 @@ def main():
 
                 if zi_co:
                     zi_name    = zi_co.get("name", "")
-                    zi_emp     = zi_co.get("employees")
+                    zi_emp     = zi_co.get("employeeCount")
                     zi_raw_url = zi_co.get("website", "")
                     zi_domain  = _clean_domain(zi_raw_url) or lookup_domain
 
