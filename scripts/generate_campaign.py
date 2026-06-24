@@ -209,7 +209,15 @@ def main():
         f"  Contact: {tokens['contact.first_name']} {tokens['contact.last_name']}"
         f" @ {tokens['contact.company'] or tokens['company.name']}"
     )
-    print(f"  Form role: {tokens['contact.form_role'] or '(not provided)'}")
+    print(f"  Job title:       {tokens['contact.jobtitle'] or '(not provided)'}")
+    print(f"  Company:         {tokens['company.name'] or '(not provided)'}")
+    print(f"  Industry:        {tokens['company.industry'] or tokens['contact.industry'] or '(not provided)'}")
+    print(f"  Employees:       {tokens['company.numberofemployees'] or '(not provided)'}")
+    print(f"  --- Form submission ---")
+    print(f"  Role(s):         {tokens['contact.form_role'] or '(not provided)'}")
+    print(f"  Staff count:     {tokens['contact.form_staff_count'] or '(not provided)'}")
+    print(f"  Why offshore:    {tokens['contact.form_why_offshore'] or '(not provided)'}")
+    print(f"  Anything else:   {tokens['contact.form_anything_else'] or '(not provided)'}")
     print(
         f"  Activity: {len(email_history)} emails, {len(meeting_engagements)} meetings, "
         f"{len(call_history)} calls, {len(contact_notes)} contact notes, "
