@@ -9,9 +9,8 @@ See: `.planning/PROJECT.md` (updated 2026-06-24)
 
 ## Current Phase
 
-**Phase 3: Tokens**
-Status: Not started
-Goal: Step passthrough + current_date
+**Phase 6: Complete**
+Status: All phases done — pipeline ready for first run
 
 ## Phase History
 
@@ -19,10 +18,10 @@ Goal: Step passthrough + current_date
 |-------|--------|-------|
 | 1 | Complete | scripts/utils.py, requirements.txt, prompt_template.md |
 | 2 | Complete | scripts/fetch_hubspot.py — contact + company + notes |
-| 3 | Not started | |
-| 4 | Not started | |
-| 5 | Not started | |
-| 6 | Not started | |
+| 3 | Complete | scripts/compute_campaign_tokens.py |
+| 4 | Complete | scripts/generate_campaign.py |
+| 5 | Complete | scripts/write_hubspot.py |
+| 6 | Complete | .github/workflows/campaign.yml |
 
 ## Open Questions
 
