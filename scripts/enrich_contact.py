@@ -41,9 +41,6 @@ IMPORTANT_FORM_FIELDS = [
 
 _ZI_OUTPUT_FIELDS = [
     "id", "firstName", "lastName", "jobTitle", "managementLevel",
-    "company.id", "company.name", "company.website",
-    "company.employeeCount", "company.employeeRange", "company.primaryIndustry",
-    "company.city", "company.state", "company.country", "company.revenue",
 ]
 
 
