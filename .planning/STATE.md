@@ -9,16 +9,16 @@ See: `.planning/PROJECT.md` (updated 2026-06-24)
 
 ## Current Phase
 
-**Phase 2: HubSpot Fetch**
+**Phase 3: Tokens**
 Status: Not started
-Goal: Fetch contact + company + all engagement history from HubSpot
+Goal: Step passthrough + current_date
 
 ## Phase History
 
 | Phase | Status | Notes |
 |-------|--------|-------|
 | 1 | Complete | scripts/utils.py, requirements.txt, prompt_template.md |
-| 2 | Not started | |
+| 2 | Complete | scripts/fetch_hubspot.py — contact + company + notes |
 | 3 | Not started | |
 | 4 | Not started | |
 | 5 | Not started | |
