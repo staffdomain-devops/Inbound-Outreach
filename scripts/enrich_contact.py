@@ -360,6 +360,10 @@ def main():
 
     write_dlq(contact_id, contact_email, "enrich_contact", "Script started", retry_count=0)
 
+    if os.environ.get("INPUT_SKIP_ENRICHMENT", "").lower() in ("true", "1", "yes"):
+        print("Enrichment skipped (INPUT_SKIP_ENRICHMENT=true)")
+        return
+
     hs_path = os.path.join(runner_temp, "hubspot_contact.json")
     with open(hs_path) as f:
         data = json.load(f)

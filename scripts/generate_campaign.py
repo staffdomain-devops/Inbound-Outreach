@@ -18,13 +18,9 @@ EMAIL_BODY_CAP = 3000
 _anthropic_retry = retry(retry=retry_if_exception(_is_anthropic_transient), **ANTHROPIC_RETRY_KWARGS)
 
 JSON_SCHEMA_HINT = """
-Return ONLY a raw JSON object — no markdown, no code fences, no explanation. Shape:
-{
-  "email_1": {"subject": "...", "body": "..."},
-  "email_2": {"subject": "...", "body": "..."},
-  "email_3": {"subject": "...", "body": "..."},
-  "email_4": {"subject": "...", "body": "..."}
-}
+Return ONLY a raw JSON object — no markdown, no code fences, no explanation.
+The object must have exactly these four keys, each with a "subject" string and a "body" string:
+email_1, email_2, email_3, email_4
 """
 
 

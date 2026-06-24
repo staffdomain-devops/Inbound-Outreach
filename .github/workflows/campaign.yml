@@ -11,6 +11,11 @@ on:
         description: Contact email address (for DLQ / notifications)
         required: true
         type: string
+      skip_enrichment:
+        description: Skip ZoomInfo enrichment (contact already enriched)
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   generate:
@@ -44,6 +49,7 @@ jobs:
         env:
           INPUT_CONTACT_ID: ${{ github.event.inputs.contact_id }}
           INPUT_CONTACT_EMAIL: ${{ github.event.inputs.contact_email }}
+          INPUT_SKIP_ENRICHMENT: ${{ github.event.inputs.skip_enrichment }}
           HUBSPOT_API_KEY: ${{ secrets.HUBSPOT_API_KEY }}
           ZOOMINFO_USERNAME: ${{ secrets.ZOOMINFO_USERNAME }}
           ZOOMINFO_PASSWORD: ${{ secrets.ZOOMINFO_PASSWORD }}
