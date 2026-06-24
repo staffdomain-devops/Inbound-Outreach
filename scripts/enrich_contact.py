@@ -40,7 +40,21 @@ IMPORTANT_FORM_FIELDS = [
 ]
 
 _ZI_OUTPUT_FIELDS = [
-    "id", "firstName", "lastName", "jobTitle", "managementLevel",
+    "id", "firstName", "middleName", "lastName", "email",
+    "hasCanadianEmail", "phone", "directPhoneDoNotCall",
+    "street", "city", "region", "metroArea", "zipCode", "state", "country",
+    "personHasMoved", "withinEu", "withinCalifornia", "withinCanada",
+    "lastUpdatedDate", "noticeProvidedDate",
+    "salutation", "suffix", "jobTitle", "jobFunction", "companyDivision",
+    "education", "hashedEmails", "picture", "mobilePhoneDoNotCall", "externalUrls",
+    "companyId", "companyName", "companyDescriptionList", "companyPhone", "companyFax",
+    "companyStreet", "companyCity", "companyState", "companyZipCode", "companyCountry",
+    "companyLogo", "companySicCodes", "companyNaicsCodes", "contactAccuracyScore",
+    "companyWebsite", "companyRevenue", "companyRevenueNumeric", "companyEmployeeCount",
+    "companyType", "companyTicker", "companyRanking", "isDefunct",
+    "companySocialMediaUrls", "companyPrimaryIndustry", "companyIndustries",
+    "companyRevenueRange", "companyEmployeeRange",
+    "employmentHistory", "managementLevel", "locationCompanyId",
 ]
 
 
@@ -114,7 +128,21 @@ def _zi_enrich_contact(jwt, *, email=None, first_name=None, last_name=None, comp
                 continue
 
             contact_data = data_list[0]
+
+            # Company data may be nested under "company" or returned as flat companyXxx fields.
             company_data = contact_data.get("company") or {}
+            if not company_data.get("name") and contact_data.get("companyName"):
+                company_data = {
+                    "name":            contact_data.get("companyName", ""),
+                    "website":         contact_data.get("companyWebsite", ""),
+                    "employeeCount":   contact_data.get("companyEmployeeCount"),
+                    "employeeRange":   contact_data.get("companyEmployeeRange", ""),
+                    "primaryIndustry": contact_data.get("companyPrimaryIndustry") or contact_data.get("companyIndustries") or [],
+                    "city":            contact_data.get("companyCity", ""),
+                    "state":           contact_data.get("companyState", ""),
+                    "country":         contact_data.get("companyCountry", ""),
+                    "revenue":         contact_data.get("companyRevenue", ""),
+                }
 
             print(
                 f"  ZI matched via {list(match_input.keys())}: "
