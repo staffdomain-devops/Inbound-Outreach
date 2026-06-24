@@ -85,7 +85,7 @@ def _zi_enrich_company(jwt, *, domain=None, name=None):
                 "matchCompanyInput": [match_input],
                 "outputFields": [
                     "id", "name", "website", "revenue", "employees",
-                    "industry", "city", "state", "country", "description",
+                    "primaryIndustry", "city", "state", "country",
                 ],
             },
             timeout=30,
@@ -99,7 +99,13 @@ def _zi_enrich_company(jwt, *, domain=None, name=None):
 
 
 def _zi_enrich_contact(jwt, email):
-    """Enrich a contact via ZoomInfo by email. Returns the first result dict or {}."""
+    """
+    Enrich a contact via ZoomInfo by email.
+    Uses matchPersonInput per ZoomInfo API v2 spec.
+    Also returns company-level fields (companyEmployeeCount, companyPrimaryIndustry, etc.)
+    so a separate company enrich call is often unnecessary.
+    Returns the first result dict or {}.
+    """
     if not jwt or not email:
         return {}
     try:
@@ -107,10 +113,12 @@ def _zi_enrich_contact(jwt, email):
             f"{ZOOMINFO_BASE}/enrich/contact",
             headers={"Authorization": f"Bearer {jwt}"},
             json={
-                "matchContactInput": [{"emailAddress": email}],
+                "matchPersonInput": [{"emailAddress": email}],
                 "outputFields": [
                     "id", "firstName", "lastName", "jobTitle",
-                    "companyName", "employees",
+                    "companyName", "companyEmployeeCount",
+                    "companyPrimaryIndustry", "companyWebsite",
+                    "companyCity", "companyState", "companyCountry",
                 ],
             },
             timeout=30,
@@ -378,25 +386,26 @@ def main():
                             _hs_associate_contact_company(headers, contact_id, company_id)
 
                     # Patch HubSpot company with any newly available fields.
+                    # ZI company enrich returns "primaryIndustry", not "industry".
+                    zi_industry = zi_co.get("primaryIndustry") or zi_co.get("industry", "")
                     if company_id:
                         hs_co_patch = {}
                         if needs_employees and zi_emp:
                             hs_co_patch["numberofemployees"] = str(zi_emp)
-                        if not (company_props.get("industry") or "").strip() and zi_co.get("industry"):
-                            hs_co_patch["industry"] = zi_co["industry"]
+                        if not (company_props.get("industry") or "").strip() and zi_industry:
+                            hs_co_patch["industry"] = zi_industry
                         if hs_co_patch:
                             _hs_patch_company(headers, company_id, hs_co_patch)
 
                     # Merge ZI data into in-memory company_props (fill blanks only).
                     _merge = {
                         "name":              zi_name,
-                        "industry":          zi_co.get("industry", ""),
+                        "industry":          zi_industry,
                         "numberofemployees": str(zi_emp) if zi_emp else "",
                         "city":              zi_co.get("city", ""),
                         "country":           zi_co.get("country", ""),
                         "website":           zi_raw_url,
                         "annualrevenue":     str(zi_co["revenue"]) if zi_co.get("revenue") else "",
-                        "description":       zi_co.get("description", ""),
                     }
                     for k, v in _merge.items():
                         if v and not (company_props.get(k) or "").strip():
@@ -439,13 +448,15 @@ def main():
                         contact_props[prop_name] = zi_ct[zi_key]
                         hs_ct_patch[prop_name]   = zi_ct[zi_key]
 
-                # ZI contact response sometimes includes company employee count.
-                if not (company_props.get("numberofemployees") or "").strip() and zi_ct.get("employees"):
-                    company_props["numberofemployees"] = str(zi_ct["employees"])
-
-                # Fall back on ZI contact's companyName if still missing.
+                # ZI contact response includes company fields (companyEmployeeCount etc.)
+                if not (company_props.get("numberofemployees") or "").strip() and zi_ct.get("companyEmployeeCount"):
+                    company_props["numberofemployees"] = str(zi_ct["companyEmployeeCount"])
+                if not (company_props.get("industry") or "").strip() and zi_ct.get("companyPrimaryIndustry"):
+                    company_props["industry"] = zi_ct["companyPrimaryIndustry"]
                 if not (company_props.get("name") or "").strip() and zi_ct.get("companyName"):
                     company_props["name"] = zi_ct["companyName"]
+                if not (company_props.get("website") or "").strip() and zi_ct.get("companyWebsite"):
+                    company_props["website"] = zi_ct["companyWebsite"]
 
                 if hs_ct_patch:
                     _hs_patch_contact(headers, contact_id, hs_ct_patch)

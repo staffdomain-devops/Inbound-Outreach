@@ -230,12 +230,17 @@ def main():
             contact_properties.get("hubspot_owner_id")
         )
 
-        # Fetch associated company
+        # Fetch associated company — use REST v3 directly (SDK v4 get_all unreliable)
         company_properties = {}
         company_id = None
         try:
-            assoc = _get_associations(client, contact_id, "0-1", "0-2")
-            company_ids = [str(r.to_object_id) for r in (assoc.results or [])]
+            assoc_resp = req_lib.get(
+                f"https://api.hubapi.com/crm/v3/objects/contacts/{contact_id}/associations/companies",
+                headers=headers,
+                timeout=30,
+            )
+            assoc_resp.raise_for_status()
+            company_ids = [r["id"] for r in assoc_resp.json().get("results", [])]
             if company_ids:
                 company_id = company_ids[0]
                 company = _get_company(
