@@ -477,25 +477,31 @@ def main():
                         contact_props[prop_name] = zi_ct[zi_key]
                         hs_ct_patch[prop_name]   = zi_ct[zi_key]
 
-                # ZI contact response includes company fields (companyEmployeeCount etc.)
+                # Collect company fields from ZI contact response before updating
+                # company_props — we need to patch HubSpot with the same values
+                # and must capture what was missing BEFORE we fill it in memory.
+                hs_co_patch_from_ct = {}
+
                 if not (company_props.get("numberofemployees") or "").strip() and zi_ct.get("companyEmployeeCount"):
-                    company_props["numberofemployees"] = str(zi_ct["companyEmployeeCount"])
+                    val = str(zi_ct["companyEmployeeCount"])  # range string e.g. "1-10" — HS field is text
+                    company_props["numberofemployees"] = val
+                    hs_co_patch_from_ct["numberofemployees"] = val
+
                 if not (company_props.get("industry") or "").strip() and zi_ct.get("companyPrimaryIndustry"):
                     company_props["industry"] = zi_ct["companyPrimaryIndustry"]
+                    hs_co_patch_from_ct["industry"] = zi_ct["companyPrimaryIndustry"]
+
                 if not (company_props.get("name") or "").strip() and zi_ct.get("companyName"):
                     company_props["name"] = zi_ct["companyName"]
+
                 if not (company_props.get("website") or "").strip() and zi_ct.get("companyWebsite"):
                     company_props["website"] = zi_ct["companyWebsite"]
 
                 if hs_ct_patch:
                     _hs_patch_contact(headers, contact_id, hs_ct_patch)
 
-                # If ZI contact gave us company employee count, patch the HubSpot company too.
-                if company_id and zi_ct.get("companyEmployeeCount") and not (company_props.get("numberofemployees") or "").strip():
-                    _hs_patch_company(headers, company_id, {
-                        "numberofemployees": str(zi_ct["companyEmployeeCount"]),
-                        **({"industry": zi_ct["companyPrimaryIndustry"]} if zi_ct.get("companyPrimaryIndustry") and not (company_props.get("industry") or "").strip() else {}),
-                    })
+                if company_id and hs_co_patch_from_ct:
+                    _hs_patch_company(headers, company_id, hs_co_patch_from_ct)
             else:
                 enrichment_log.append("ZoomInfo contact: no match (tried email + name)")
                 print("  ZI contact: no result", file=sys.stderr)
