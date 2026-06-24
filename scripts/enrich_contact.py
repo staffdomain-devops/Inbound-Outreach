@@ -66,69 +66,89 @@ def _get_zoominfo_jwt():
         return None
 
 
+_ZI_CONTACT_OUTPUT_FIELDS = [
+    "id", "firstName", "lastName", "jobTitle",
+    "companyName", "companyEmployeeCount",
+    "companyPrimaryIndustry", "companyWebsite",
+    "companyCity", "companyState", "companyCountry",
+]
+
+_ZI_COMPANY_OUTPUT_FIELDS = [
+    "id", "name", "website", "revenue", "employeeCount",
+    "primaryIndustry", "city", "state", "country",
+]
+
+
+def _zi_post(jwt, endpoint, body):
+    """POST to a ZoomInfo enrich endpoint. Returns parsed result list or []."""
+    resp = req_lib.post(
+        f"{ZOOMINFO_BASE}{endpoint}",
+        headers={"Authorization": f"Bearer {jwt}"},
+        json=body,
+        timeout=30,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    # Log raw keys on first call to aid debugging field-name mismatches.
+    result_list = (data.get("data") or {}).get("result") or []
+    if result_list:
+        print(f"  ZI raw keys ({endpoint}): {list(result_list[0].keys())[:12]}")
+    return result_list
+
+
 def _zi_enrich_company(jwt, *, domain=None, name=None):
-    """Enrich a company via ZoomInfo. Returns the first result dict or {}."""
+    """Enrich a company via ZoomInfo by domain or name. Returns first result or {}."""
     if not jwt:
         return {}
     match_input = {}
     if domain:
-        match_input["website"] = domain
+        match_input["companyWebsite"] = domain   # ZI input field is companyWebsite, not website
     elif name:
         match_input["companyName"] = name
     if not match_input:
         return {}
     try:
-        resp = req_lib.post(
-            f"{ZOOMINFO_BASE}/enrich/company",
-            headers={"Authorization": f"Bearer {jwt}"},
-            json={
-                "matchCompanyInput": [match_input],
-                "outputFields": [
-                    "id", "name", "website", "revenue", "employeeCount",
-                    "primaryIndustry", "city", "state", "country",
-                ],
-            },
-            timeout=30,
-        )
-        resp.raise_for_status()
-        results = (resp.json().get("data") or {}).get("result") or []
+        results = _zi_post(jwt, "/enrich/company", {
+            "matchCompanyInput": [match_input],
+            "outputFields": _ZI_COMPANY_OUTPUT_FIELDS,
+        })
         return results[0] if results else {}
     except Exception as exc:
         print(f"  ZoomInfo company enrich failed: {exc}", file=sys.stderr)
         return {}
 
 
-def _zi_enrich_contact(jwt, email):
+def _zi_enrich_contact(jwt, *, email=None, first_name=None, last_name=None, company_name=None):
     """
-    Enrich a contact via ZoomInfo by email.
-    Uses matchPersonInput per ZoomInfo API v2 spec.
-    Also returns company-level fields (companyEmployeeCount, companyPrimaryIndustry, etc.)
-    so a separate company enrich call is often unnecessary.
-    Returns the first result dict or {}.
+    Enrich a contact via ZoomInfo.
+    Tries email first; if no match, falls back to firstName + lastName + companyName.
+    Returns the first matched result dict or {}.
     """
-    if not jwt or not email:
+    if not jwt:
         return {}
-    try:
-        resp = req_lib.post(
-            f"{ZOOMINFO_BASE}/enrich/contact",
-            headers={"Authorization": f"Bearer {jwt}"},
-            json={
-                "matchPersonInput": [{"emailAddress": email}],
-                "outputFields": [
-                    "id", "firstName", "lastName", "jobTitle",
-                    "companyName", "companyEmployeeCount",
-                    "companyPrimaryIndustry", "companyWebsite",
-                    "companyCity", "companyState", "companyCountry",
-                ],
-            },
-            timeout=30,
-        )
-        resp.raise_for_status()
-        results = (resp.json().get("data") or {}).get("result") or []
-        return results[0] if results else {}
-    except Exception as exc:
-        print(f"  ZoomInfo contact enrich failed: {exc}", file=sys.stderr)
-        return {}
+
+    attempts = []
+    if email:
+        attempts.append({"emailAddress": email})
+    if first_name and last_name:
+        name_input = {"firstName": first_name, "lastName": last_name}
+        if company_name:
+            name_input["companyName"] = company_name
+        attempts.append(name_input)
+
+    for match_input in attempts:
+        try:
+            results = _zi_post(jwt, "/enrich/contact", {
+                "matchPersonInput": [match_input],
+                "outputFields": _ZI_CONTACT_OUTPUT_FIELDS,
+            })
+            if results:
+                print(f"  ZI contact match via: {list(match_input.keys())}")
+                return results[0]
+        except Exception as exc:
+            print(f"  ZoomInfo contact enrich failed ({list(match_input.keys())}): {exc}", file=sys.stderr)
+
+    return {}
 
 
 # ── HubSpot helpers ───────────────────────────────────────────────────────────
@@ -427,11 +447,20 @@ def main():
         if not (contact_props.get(f) or "").strip()
     ]
 
-    if missing_contact and contact_email:
+    if missing_contact:
         jwt = jwt or _get_zoominfo_jwt()
         if jwt:
-            print(f"ZoomInfo contact enrichment for {contact_email}")
-            zi_ct = _zi_enrich_contact(jwt, contact_email)
+            fn = (contact_props.get("firstname") or "").strip()
+            ln = (contact_props.get("lastname") or "").strip()
+            co = (company_props.get("name") or contact_props.get("company") or "").strip()
+            print(f"ZoomInfo contact enrichment — email={contact_email!r} name={fn!r} {ln!r} company={co!r}")
+            zi_ct = _zi_enrich_contact(
+                jwt,
+                email=contact_email or None,
+                first_name=fn or None,
+                last_name=ln or None,
+                company_name=co or None,
+            )
 
             if zi_ct:
                 enrichment_log.append(
@@ -460,8 +489,15 @@ def main():
 
                 if hs_ct_patch:
                     _hs_patch_contact(headers, contact_id, hs_ct_patch)
+
+                # If ZI contact gave us company employee count, patch the HubSpot company too.
+                if company_id and zi_ct.get("companyEmployeeCount") and not (company_props.get("numberofemployees") or "").strip():
+                    _hs_patch_company(headers, company_id, {
+                        "numberofemployees": str(zi_ct["companyEmployeeCount"]),
+                        **({"industry": zi_ct["companyPrimaryIndustry"]} if zi_ct.get("companyPrimaryIndustry") and not (company_props.get("industry") or "").strip() else {}),
+                    })
             else:
-                enrichment_log.append("ZoomInfo contact: no match")
+                enrichment_log.append("ZoomInfo contact: no match (tried email + name)")
                 print("  ZI contact: no result", file=sys.stderr)
 
     # ── Phase 3: Final gap check + SDR note ───────────────────────────────────
