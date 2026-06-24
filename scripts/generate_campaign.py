@@ -235,12 +235,18 @@ def main():
 
     try:
         client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"], max_retries=0)
+        # Prefill the assistant turn with "{" so Claude is structurally forced to
+        # continue with JSON — it cannot prepend any preamble or code fence.
         message = _call_claude(
             client, system,
-            [{"role": "user", "content": prompt + "\n\n" + JSON_SCHEMA_HINT}],
+            [
+                {"role": "user",      "content": prompt + "\n\n" + JSON_SCHEMA_HINT},
+                {"role": "assistant", "content": "{"},
+            ],
         )
 
-        raw = message.content[0].text.strip()
+        # Claude's response is everything AFTER the prefilled "{", so restore it.
+        raw = "{" + message.content[0].text
         print(f"Response: {len(raw):,} chars | stop_reason={message.stop_reason}")
 
         # Always save the raw response so it's available as an artifact.

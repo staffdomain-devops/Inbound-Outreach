@@ -43,6 +43,25 @@ def _get_owner(client, owner_id):
     return client.crm.owners.owners_api.get_by_id(owner_id=int(owner_id), id_property="id")
 
 
+def _resolve_enum_label(client, object_type, property_name, value):
+    """
+    HubSpot dropdown/radio properties store an internal key (e.g. 'np95Md0Jqz7A2Q7J0PhGF')
+    rather than the human-readable label. Fetch the property definition and map the key
+    to its label. Returns the original value unchanged if resolution fails or is unnecessary.
+    """
+    if not value or not isinstance(value, str) or " " in value.strip():
+        return value  # already looks like human text
+    try:
+        prop = client.crm.properties.core_api.get_by_name(object_type, property_name)
+        for option in (prop.options or []):
+            if option.value == value:
+                print(f"  Resolved {property_name}: {value!r} → {option.label!r}")
+                return option.label
+    except Exception as exc:
+        print(f"  Warning: could not resolve {property_name} enum: {exc}", file=sys.stderr)
+    return value
+
+
 @_req_retry
 def _get_engagements_page(headers, object_type, object_id, params):
     url = f"https://api.hubapi.com/engagements/v1/engagements/associated/{object_type}/{object_id}/paged"
@@ -189,6 +208,13 @@ def main():
             ],
         )
         contact_properties = contact.properties or {}
+
+        # Dropdown/radio fields store an internal key — resolve to the human-readable label.
+        for _enum_field in ["why_are_you_looking_to_offshore_"]:
+            if contact_properties.get(_enum_field):
+                contact_properties[_enum_field] = _resolve_enum_label(
+                    client, "contacts", _enum_field, contact_properties[_enum_field]
+                )
 
         def resolve_owner_firstname(owner_id):
             if not owner_id:
