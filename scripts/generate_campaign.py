@@ -19,8 +19,8 @@ _anthropic_retry = retry(retry=retry_if_exception(_is_anthropic_transient), **AN
 
 JSON_SCHEMA_HINT = """
 Return ONLY a raw JSON object — no markdown, no code fences, no explanation.
-The object must have exactly these four keys, each with a "subject" string and a "body" string:
-email_1, email_2, email_3, email_4
+The object must have exactly these five keys, each with a "subject" string and a "body" string:
+email_1, email_2, email_3, email_4, email_5
 """
 
 
@@ -129,7 +129,7 @@ def strip_code_fence(text):
 
 
 def clean_emails(output):
-    for i in range(1, 5):
+    for i in range(1, 6):
         key = f"email_{i}"
         if key in output and isinstance(output[key], dict):
             email = output[key]
@@ -257,7 +257,7 @@ def main():
             print(f"Raw response saved to {raw_path}", file=sys.stderr)
             raise RuntimeError(f"Claude response is not valid JSON: {e}") from e
 
-        required_keys = ["email_1", "email_2", "email_3", "email_4"]
+        required_keys = ["email_1", "email_2", "email_3", "email_4", "email_5"]
         missing = [k for k in required_keys if k not in output]
         if missing:
             print(f"WARNING: response missing keys: {missing}", file=sys.stderr)
