@@ -125,7 +125,7 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 - Keep language clear, natural, and grammatically correct. Avoid phrasing that could read as passive aggressive or pushy. No em dashes. No corporate filler.
 - Subject lines: punchy and short.
 - Vary the wording of the assumptive close naturally across steps so it does not feel like a template.
-- Open each email with "Hi [First name]," on its own line before the body.
+- Do not open with "Hi [Name]," or any salutation. Start the body directly with the first sentence.
 - Keep follow-up emails tight. Emails 2, 3, and 4 should aim for 60-100 words in the body. Email 1 can run slightly longer but should not exceed 150 words.
 - The email body ends before the meeting link and signature — those are appended by the system. Do not write them.
 
