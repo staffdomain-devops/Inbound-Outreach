@@ -104,7 +104,7 @@ The prospect personally submitted the enquiry, so treat them as the right person
 
 Every email assumes we have **not** spoken to the prospect live yet. If we had connected, the sequence would have ended. Calls happen between the email steps and have not connected.
 
-**email_1 (first email, sent within minutes of the enquiry):** Open with personal ownership — you just received their enquiry and you are responding directly. Acknowledge the specific role they asked about. Use soft, collaborative framing: this sounds like something we can explore together, not a hard "yes we can help." Show genuine interest in understanding more. Close with a soft assumptive question — ask when would be a good time to connect to go over the details, not whether. Then reference the link you have put below for them to pick any time that works.
+**email_1 (first email, sent within minutes of the enquiry):** Open with personal ownership — you just received their enquiry and you are responding directly. Acknowledge the specific role they asked about and the reason they gave for reaching out. Use soft, collaborative framing: this sounds like something we can explore together, not a hard "yes we can help." Show genuine interest in understanding more. Do not list services, describe what we offer, or explain how we work — email 1 is not about selling, it is about acknowledging and getting the call. Close with a soft assumptive question — ask when would be a good time to connect to go over the details, not whether. Then reference the link you have put below for them to pick any time that works.
 
 **email_2 (right after first call attempt):** Very brief. Note you tried to call, reference the specific role they enquired about, and say you'd like to learn more about what they need. Do not explain or excuse why they couldn't answer — no "I know you're busy" type lines. Close with a soft assumptive question asking when would be a good time to try again, then reference the link you have put below for them to book a time.
 
@@ -125,7 +125,7 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 - Keep language clear, natural, and grammatically correct. Avoid phrasing that could read as passive aggressive or pushy. No em dashes. No corporate filler.
 - Subject lines: punchy and short.
 - Vary the wording of the assumptive close naturally across steps so it does not feel like a template.
-- Do not open with "Hi [Name]," or any salutation. Start the body directly with the first sentence.
+- Do not use the contact's first name anywhere in the email body — not as a greeting, not mid-sentence, not at the end. The name never appears in the body.
 - Keep follow-up emails tight. Emails 2, 3, and 4 should aim for 60-100 words in the body. Email 1 can run slightly longer but should not exceed 150 words.
 - The email body ends before the meeting link and signature — those are appended by the system. Do not write them.
 
