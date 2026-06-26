@@ -129,7 +129,8 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 - Subject lines: punchy and short.
 - Vary the wording of the assumptive close naturally across steps so it does not feel like a template.
 - Do not use the contact's first name anywhere in the email body — not as a greeting, not mid-sentence, not at the end. The name never appears in the body.
-- The email body ends before the meeting link and signature — those are appended by the system. Do not write them.
+- Do not open the email with any greeting line — no "Hi,", "Hello,", "Hi there,", or any variation. The body starts directly with the first sentence.
+- The email body ends before the meeting link and signature — those are appended by the system. Do not write them. Do not write a sign-off, closing line, or sender name such as "Kind regards", "Thanks", or "[Contact owner]".
 
 ---
 
