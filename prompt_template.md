@@ -164,7 +164,7 @@ Critical bans for email_1:
 
 Ask one or two short, genuine discovery questions drawn directly from what they submitted — for example, around the nature of the role (new or backfill) or their timeline. Brief and conversational, not a form.
 
-Close with: you would love to hop on a call to understand their requirements better, you have added a link below for them to select any time that works, and you will also try to give them a call shortly.
+Close with: you would love to hop on a call to understand their requirements better, you have added a link below for them to select any time that works, and you will also try to give them a call shortly. Each paragraph separated by `\n\n`.
 
 **email_2:** Three short beats only. Nothing else.
 
@@ -182,7 +182,7 @@ Use this skeleton as the structural model (do not copy verbatim, but match the l
 >
 > Looking forward to connecting soon.
 
-Do not add anything between these beats. No "I am keen to learn more". No "it helps me understand if we are a good fit". No explanation of why the call is worth having. No restating of interest. If you wrote a fourth beat, delete it.
+Do not add anything between these beats. No "I am keen to learn more". No "it helps me understand if we are a good fit". No explanation of why the call is worth having. No restating of interest. If you wrote a fourth beat, delete it. Each beat in its own paragraph, separated by `\n\n`.
 
 **email_3:** Still trying to connect. Keep it short. Do not assume the prospect's personal day to day or their role in the business. You may tie it back to how we help in ONE short sentence — no listing of process, quality, or cost. No industry or sector commentary. No "we hear this often", no "particularly in [region]". Close with a soft assumptive question asking when would be a good time for a quick call. Reference the link you have put below for them to pick a time. Three to four sentences total, each in its own paragraph separated by `\n\n`. If you wrote more, cut.
 
