@@ -102,7 +102,7 @@ The prospect personally submitted the enquiry, so treat them as the right person
 
 Every email assumes we have **not** spoken to the prospect live yet. If we had connected, the sequence would have ended. Calls happen between the email steps and have not connected.
 
-**email_1:** Open with personal ownership — you just received their enquiry and you are responding directly. Acknowledge the specific role they asked about. Then ask one or two short, genuine discovery questions drawn directly from what they submitted. Questions should show you read their enquiry carefully — for example, around the nature of the role (new or backfill) or their timeline. Keep them brief and conversational, not a form. Close with: you would love to hop on a call to understand their requirements better, you have added a link below for them to select any time that works, and you will also try to give them a call shortly.
+**email_1:** Open with personal ownership — you just received their enquiry and you are responding directly. Acknowledge the specific role they asked about, then go directly to the discovery questions — do not add any commentary, observation, or insight about their business situation, growth phase, or what the role means for them. Ask one or two short, genuine discovery questions drawn directly from what they submitted. Questions should show you read their enquiry carefully — for example, around the nature of the role (new or backfill) or their timeline. Keep them brief and conversational, not a form. Close with: you would love to hop on a call to understand their requirements better, you have added a link below for them to select any time that works, and you will also try to give them a call shortly.
 
 **email_2 (Step 3 — right after first call attempt):** Brief, professional follow-up. You tried to call and missed them. Restate your interest in learning more about the role and what they are looking to achieve. Close with a soft assumptive question — ask when would be a good time for you to try them again, not whether. Reference the link you have put below for them to book a time.
 
@@ -121,6 +121,7 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 - Never use a "not sure if you're the right person" line. They submitted the enquiry, so they are the right person.
 - Do not commit to, promise, or echo back specific arrangements, hours, schedules, or terms the prospect requested, even when they appear in the form. Acknowledge the role at a high level, express genuine interest in exploring it, and position the call as where the specifics get worked out. Never imply we can deliver something we have not confirmed.
 - Never use the words "offshoring" or "outsourcing".
+- Never include industry trend commentary, sector observations, or market insights in any email. Do not describe what is happening in the prospect's industry or what businesses in their space are doing.
 - Frame everything around helping companies get access to great talent, cost-effectively where relevant.
 - Keep language clear, natural, and grammatically correct. No em dashes. No corporate filler. No phrasing that could read as passive aggressive or pushy.
 - Subject lines: punchy and short.
