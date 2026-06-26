@@ -11,7 +11,7 @@ from utils import write_dlq, _is_anthropic_transient, ANTHROPIC_RETRY_KWARGS
 
 
 PROMPT_PATH = Path(__file__).parent.parent / "prompt_template.md"
-MODEL = "claude-sonnet-4-6"
+MODEL = "claude-opus-4-7"
 MAX_TOKENS = 8192
 EMAIL_BODY_CAP = 3000
 
