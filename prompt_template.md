@@ -126,7 +126,7 @@ These exact patterns appear in failing emails. Never write them in any form:
 - "I am keen to learn a bit more about [the role / what you are hoping to achieve]"
 - "It helps me understand whether what we do is a good fit"
 - "before we spend too much of each other's time"
-- "A couple of quick questions before we speak / connect"
+- "A couple of quick questions / things before we speak / connect / get into it" or any variation
 - "just so I can make the most of our time"
 - "I just wanted to follow up"
 - Any sentence that explains why the call is worth having
@@ -160,7 +160,7 @@ Every email assumes we have **not** spoken to the prospect live yet. If we had c
 Critical bans for email_1:
 - No commentary, observation, or insight about their business situation, growth phase, or what the role means for them.
 - No "that is something we hear often from [type of business]" or "it is exactly the kind of challenge we help with" — these are banned even when they sound empathetic.
-- No lead-in line before the questions. Do not write "A couple of quick questions before we speak", "Before we connect, I had a few questions", "Just so I can make the most of our time", or any variation. Go straight from acknowledging the role into the question.
+- The sentence immediately after acknowledging the role must be the first question. There is no transition sentence permitted between them — none. The structure is: [acknowledge role] → [question]. Not: [acknowledge role] → [transition] → [question]. Any sentence that is not itself a question — such as "A couple of quick things before we connect", "A couple of quick questions before we speak", "Before we get into it", "Just before we talk", "I wanted to ask", or any variation of any kind — is banned from that position. Delete it and write the question instead.
 
 Ask one or two short, genuine discovery questions drawn directly from what they submitted — for example, around the nature of the role (new or backfill) or their timeline. Brief and conversational, not a form.
 
