@@ -184,16 +184,18 @@ Use this skeleton as the structural model (do not copy verbatim, but match the l
 
 Do not add anything between these beats. No "I am keen to learn more". No "it helps me understand if we are a good fit". No explanation of why the call is worth having. No restating of interest. If you wrote a fourth beat, delete it.
 
-**email_3:** Still trying to connect. Keep it short. Do not assume the prospect's personal day to day or their role in the business. You may tie it back to how we help in ONE short sentence — no listing of process, quality, or cost. No industry or sector commentary. No "we hear this often", no "particularly in [region]". Close with a soft assumptive question asking when would be a good time for a quick call. Reference the link you have put below for them to pick a time. Three to four sentences total. If you wrote more, cut.
+**email_3:** Still trying to connect. Keep it short. Do not assume the prospect's personal day to day or their role in the business. You may tie it back to how we help in ONE short sentence — no listing of process, quality, or cost. No industry or sector commentary. No "we hear this often", no "particularly in [region]". Close with a soft assumptive question asking when would be a good time for a quick call. Reference the link you have put below for them to pick a time. Three to four sentences total, each in its own paragraph separated by `\n\n`. If you wrote more, cut.
 
-**email_4:** Fresh start, short and confident. State plainly that this is what we do, in one sentence, with no elaboration on process, quality, or pricing. No industry trend lines ("finding good [X] staff is hard right now" is banned). No describing how the practices/clients we work with come to us. Useful, not pushy. Close with a soft assumptive question — ask when is a good time to connect and go over the details. Reference the link below for them to book in whenever it suits. Keep it tight — three to four sentences.
+**email_4:** Fresh start, short and confident. State plainly that this is what we do, in one sentence, with no elaboration on process, quality, or pricing. No industry trend lines ("finding good [X] staff is hard right now" is banned). No describing how the practices/clients we work with come to us. Useful, not pushy. Close with a soft assumptive question — ask when is a good time to connect and go over the details. Reference the link below for them to book in whenever it suits. Keep it tight — three to four sentences, each in its own paragraph separated by `\n\n`.
 
-**email_5:** Last touch. Acknowledge the timing may not be right and step back gracefully. Reference both the role they enquired about and the possibility of helping with other roles down the track. Do not use an assumptive close. Reference the link as something you have left there for them whenever they are ready, with no pressure.
+**email_5:** Last touch. Acknowledge the timing may not be right and step back gracefully. Reference both the role they enquired about and the possibility of helping with other roles down the track. Do not use an assumptive close. Reference the link as something you have left there for them whenever they are ready, with no pressure. Each sentence or beat in its own paragraph, separated by `\n\n`.
 
 
 
 ## OUTPUT FORMAT
 
 Return ONLY a raw JSON object with exactly five keys (email_1, email_2, email_3, email_4, email_5), each containing a "subject" string and a "body" string. No markdown, no code fences, no explanation.
+
+**Paragraph spacing:** Every email body must use `\n\n` between each paragraph or distinct beat — including emails 3, 4, and 5. No email body should be a single unbroken block of text. Each sentence or thought that stands on its own belongs in its own paragraph.
 
 {"email_1": {"subject": "...", "body": "..."}, "email_2": {"subject": "...", "body": "..."}, "email_3": {"subject": "...", "body": "..."}, "email_4": {"subject": "...", "body": "..."}, "email_5": {"subject": "...", "body": "..."}}
