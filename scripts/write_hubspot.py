@@ -91,7 +91,8 @@ def main():
             continue
         if isinstance(email, dict):
             properties[subj_prop] = safe_truncate(email.get("subject") or "", 1024)
-            properties[body_prop] = safe_truncate(email.get("body") or "", 65000)
+            body = (email.get("body") or "").replace("\n", "<br>")
+            properties[body_prop] = safe_truncate(body, 65000)
         else:
             properties[body_prop] = safe_truncate(str(email), 65000)
 
