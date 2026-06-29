@@ -20,10 +20,6 @@ from utils import (
 
 EMAIL_PROPS = {
     1: ("subject_1", "email_1"),
-    2: ("subject_2", "email_2"),
-    3: ("subject_3", "email_3"),
-    4: ("subject_4", "email_4"),
-    5: ("subject_5", "email_5"),
 }
 
 _hs_retry = retry(retry=retry_if_exception(_is_hubspot_transient), **HS_RETRY_KWARGS)
@@ -59,12 +55,8 @@ def build_note_body(output):
     email_lines = []
     labels = {
         1: "Step 1 — First touch",
-        2: "Step 3 — After first call",
-        3: "Step 7 — After several calls",
-        4: "Step 11 — Next day",
-        5: "Step 14 — Break-up",
     }
-    for i in range(1, 6):
+    for i in range(1, 2):
         email = output.get(f"email_{i}")
         if email and email.get("subject"):
             email_lines.append(

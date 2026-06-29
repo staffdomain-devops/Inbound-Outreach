@@ -11,16 +11,16 @@ from utils import write_dlq, _is_anthropic_transient, ANTHROPIC_RETRY_KWARGS
 
 
 PROMPT_PATH = Path(__file__).parent.parent / "prompt_template.md"
-MODEL = "claude-opus-4-7"
-MAX_TOKENS = 8192
+MODEL = "claude-sonnet-4-6"
+MAX_TOKENS = 2048
 EMAIL_BODY_CAP = 3000
 
 _anthropic_retry = retry(retry=retry_if_exception(_is_anthropic_transient), **ANTHROPIC_RETRY_KWARGS)
 
 JSON_SCHEMA_HINT = """
 Return ONLY a raw JSON object — no markdown, no code fences, no explanation.
-The object must have exactly these five keys, each with a "subject" string and a "body" string:
-email_1, email_2, email_3, email_4, email_5
+The object must have exactly one key with a "subject" string and a "body" string:
+email_1
 """
 
 
@@ -129,7 +129,7 @@ def strip_code_fence(text):
 
 
 def clean_emails(output):
-    for i in range(1, 6):
+    for i in range(1, 2):
         key = f"email_{i}"
         if key in output and isinstance(output[key], dict):
             email = output[key]
@@ -257,7 +257,7 @@ def main():
             print(f"Raw response saved to {raw_path}", file=sys.stderr)
             raise RuntimeError(f"Claude response is not valid JSON: {e}") from e
 
-        required_keys = ["email_1", "email_2", "email_3", "email_4", "email_5"]
+        required_keys = ["email_1"]
         missing = [k for k in required_keys if k not in output]
         if missing:
             print(f"WARNING: response missing keys: {missing}", file=sys.stderr)
@@ -268,7 +268,7 @@ def main():
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2, ensure_ascii=False)
 
-        print(f"campaign_output.json written: {len([k for k in output if k.startswith('email_')])} emails")
+        print(f"campaign_output.json written: email_1")
 
     except Exception as exc:
         retry_count = getattr(getattr(exc, "__cause__", None), "statistics", {}).get("attempt_number", 1)
