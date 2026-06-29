@@ -143,7 +143,15 @@ The prospect personally submitted the enquiry, so treat them as the right person
 
 ### THE EMAIL
 
-Open with personal ownership — you just received their enquiry and are responding directly. Acknowledge the specific role they asked about, then go directly to the discovery questions. Do not add commentary or observations about their business, growth phase, or what the role means for them. Ask one or two short, genuine discovery questions drawn from what they submitted. Choose questions that fit the context — for example: Is this a new role, or are you backfilling someone? What's prompting the hire right now? Have you had remote staff before, or would this be your first? Do you have a job description ready, or are you still working through what you need? Is this a growth hire, or are you filling a specific gap? The sentence immediately after acknowledging the role must be the first question — no exceptions. There is no transition sentence permitted in that slot. Do not write "A couple of quick questions to get us started", "A couple of quick things before we connect", "Before we speak I wanted to ask", or any variation. Delete any sentence that is not itself a question and write the question instead. Close with: you would love to hop on a call to understand their requirements better, you have added a link below for them to select any time that works, and you will also try to give them a call shortly. Each paragraph separated by `\n\n`.
+Open with personal ownership — you just received their enquiry and are responding directly. Acknowledge the specific role they asked about in one sentence, then stop. Do not add any commentary after acknowledging the role — no "which is something we work on regularly", no observation about their business or growth phase, no statement about what we do or how we can help. The sentence immediately after the opening must be the first question — no exceptions, no transition sentence permitted in that slot.
+
+Ask exactly two short, genuine discovery questions drawn from what they submitted. Choose questions that fit the context — for example: Is this a first build offshore, or have you worked with a remote team before? Is this a new role, or are you backfilling someone? Are you still shaping the role profile, or do you already have a clear picture of what you need? What is prompting the hire right now? Do you have a job description ready, or are you still working through what you need? Each question is its own paragraph.
+
+Do not write "A couple of quick questions to get us started", "A couple of quick things before we connect", "Before we speak I wanted to ask", or any variation. Delete any sentence that is not itself a question and write the question instead.
+
+Close with exactly this: you would love to hop on a quick call to understand their requirements properly, you have added a link below to grab any time that suits, and you will also try them by phone shortly. No additions, no "and talk through how we can help", no extra phrases beyond this formula. The close is one paragraph.
+
+Structure: opening sentence → question one → question two → closing. Four paragraphs. Each separated by `\n\n`.
 
 ---
 
