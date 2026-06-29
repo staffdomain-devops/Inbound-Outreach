@@ -167,7 +167,7 @@ def main():
 
     tokens = {
         # Form submission fields (strongest signal)
-        "contact.form_role": contact_props.get("what_role_s_are_you_looking_to_scale_right_now_", ""),
+        "contact.form_role": contact_props.get("what_role_s_are_you_looking_to_scale_right_now_", "") or contact_props.get("message", ""),
         "contact.form_staff_count": contact_props.get("how_many_staff_are_you_looking_to_hire", ""),
         "contact.form_why_offshore": contact_props.get("why_are_you_looking_to_offshore_", ""),
         "contact.form_anything_else": contact_props.get("anything_else_we_should_know_", ""),

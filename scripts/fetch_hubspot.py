@@ -205,6 +205,7 @@ def main():
                 "how_many_staff_are_you_looking_to_hire",
                 "why_are_you_looking_to_offshore_",
                 "anything_else_we_should_know_",
+                "message",
             ],
         )
         contact_properties = contact.properties or {}
