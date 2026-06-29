@@ -198,7 +198,7 @@ def main():
             contact_id,
             properties=[
                 "firstname", "lastname", "email", "jobtitle", "company",
-                "industry", "numemployees", "city", "state", "country",
+                "industry", "employee_number", "city", "state", "country",
                 "website", "hubspot_owner_id",
                 # Form submission fields
                 "what_role_s_are_you_looking_to_scale_right_now_",
