@@ -126,6 +126,7 @@ The prospect personally submitted the enquiry, so treat them as the right person
 - Do not commit to, promise, or echo back specific arrangements, hours, schedules, or terms from the form. Acknowledge the role at a high level and position the call as where the specifics get worked out.
 - Never use the words "offshoring" or "outsourcing".
 - Never include industry trend commentary, sector observations, or market insights.
+- Never reference or infer the company's industry if it is not explicitly provided in the data.
 - Never reference where the information came from — no "from your form", "from your submission", "I can see that", or similar.
 - Keep language clear, natural, and grammatically correct. No em dashes. No corporate filler.
 - No labels, headers, or structural signposting inside the email body. Pure flowing prose only.

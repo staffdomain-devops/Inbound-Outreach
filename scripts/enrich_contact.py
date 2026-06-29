@@ -32,12 +32,9 @@ IMPORTANT_CONTACT_FIELDS = [
 ]
 IMPORTANT_COMPANY_FIELDS = [
     ("name",              "Company name"),
-    ("industry",          "Company industry"),
     ("numberofemployees", "Number of employees"),
 ]
-IMPORTANT_FORM_FIELDS = [
-    ("what_role_s_are_you_looking_to_scale_right_now_", "Role(s) enquired about"),
-]
+IMPORTANT_FORM_FIELDS = []
 
 _ZI_OUTPUT_FIELDS = [
     "id", "firstName", "middleName", "lastName", "email",
