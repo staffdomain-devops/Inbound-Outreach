@@ -27,9 +27,8 @@ PERSONAL_DOMAINS = {
 }
 
 IMPORTANT_CONTACT_FIELDS = [
-    ("firstname",     "Contact first name"),
-    ("jobtitle",      "Contact job title / seniority"),
-    ("num_employees", "Number of employees"),
+    ("firstname", "Contact first name"),
+    ("jobtitle",  "Contact job title / seniority"),
 ]
 IMPORTANT_COMPANY_FIELDS = [
     ("name",              "Company name"),
@@ -440,11 +439,6 @@ def main():
             if not (contact_props.get(prop_name) or "").strip() and zi_contact.get(zi_key):
                 contact_props[prop_name] = zi_contact[zi_key]
                 hs_ct_patch[prop_name]   = zi_contact[zi_key]
-
-        emp_count = zi_contact.get("companyEmployeeCount") or zi_company.get("employeeCount")
-        if emp_count and not (contact_props.get("num_employees") or "").strip():
-            contact_props["num_employees"] = str(emp_count)
-            hs_ct_patch["num_employees"]   = str(emp_count)
 
         if hs_ct_patch:
             _hs_patch_contact(headers, contact_id, hs_ct_patch)
